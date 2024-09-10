@@ -37,6 +37,7 @@ class Calculator(QMainWindow):
         self.operation = None
         self.prev_operation = None
         self.add_point = None
+        self.last_pressed_button = None
         self.first_turn = True
         self.label = QLabel("")
 
@@ -80,6 +81,7 @@ class Calculator(QMainWindow):
         self.prev_operation = None
         self.add_point = None
         self.first_turn = True
+        self.last_pressed_button = None
 
     def save_number(self, text):
         if self.first_turn:
@@ -145,14 +147,16 @@ class Calculator(QMainWindow):
         self.first_turn = True
 
     def save_operation(self, text):
-        self.label.setText(text)
-        self.operation = text
-        self.first_turn = False
-        if self.prev_operation is None:
-            self.secondNumber = None
-        else:
-            self.find_result(False)
-            self.secondNumber = None
+        if self.last_pressed_button != text:
+            self.label.setText(text)
+            self.operation = text
+            self.first_turn = False
+            if self.prev_operation is None:
+                self.secondNumber = None
+            else:
+                self.find_result(False)
+                self.secondNumber = None
+                self.first_turn = False
 
     def backspace(self):
         if self.firstNumber is not None and self.first_turn:
@@ -181,11 +185,15 @@ class Calculator(QMainWindow):
         if self.first_turn:
             if self.firstNumber is None:
                 self.firstNumber = 0
-            self.label.setText(str(self.firstNumber) + ".")
+
+            if str(self.firstNumber).find(".") == -1:
+                self.label.setText(str(self.firstNumber) + ".")
         else:
             if self.secondNumber is None:
                 self.secondNumber = 0
-            self.label.setText(str(self.secondNumber) + ".")
+
+            if str(self.secondNumber).find(".") == -1:
+                self.label.setText(str(self.secondNumber) + ".")
 
         self.add_point = True
 
@@ -226,6 +234,8 @@ class Calculator(QMainWindow):
                     self.save_number(text)
                 case _:
                     self.save_operation(text)
+
+            self.last_pressed_button = text
 
         except ZeroDivisionError:
             self.label.setText("you try divide by 0")
