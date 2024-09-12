@@ -28,9 +28,9 @@ def remove_digit(number_string):
 def add_digit(number, new_digit, add_point):
     """
     Function for adding any digit to number (or point for Decimal)
-    :param number:
-    :param new_digit:
-    :param add_point:
+    :param number: number from screen
+    :param new_digit: new digit
+    :param add_point: flag for adding point (bool)
     :return:
     """
     if len(str(number)) < 16:
