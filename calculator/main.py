@@ -31,7 +31,6 @@ def add_digit(number, new_digit, add_point):
     :param number: number from screen
     :param new_digit: new digit
     :param add_point: flag for adding point (bool)
-    :return:
     """
     if len(str(number)) < 16:
         if isinstance(number, int):
